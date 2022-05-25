@@ -6,6 +6,7 @@ import compression from 'compression';
 import mongoose from 'mongoose';
 
 import { IController } from './utils/interfaces';
+import ErrorHandlerMiddleware from './middlewares/ErrorHandlingMiddleware';
 
 export default class Application {
   private expressApp: express.Application = express();
@@ -14,6 +15,8 @@ export default class Application {
     this.initializeDatabaseConnection();
     this.initializeAppMiddlewares();
     this.initializeControllers();
+
+    this.initializeErrorHandler(); // comes last
   }
 
   public startAppListening(): void {
@@ -41,5 +44,9 @@ export default class Application {
     this.controllers.forEach((controller) => {
       this.expressApp.use('/api/v1', controller.router);
     });
+  }
+
+  private initializeErrorHandler(): void {
+    this.expressApp.use(ErrorHandlerMiddleware);
   }
 }
