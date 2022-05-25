@@ -5,12 +5,15 @@ import cors from 'cors';
 import compression from 'compression';
 import mongoose from 'mongoose';
 
+import { IController } from './utils/interfaces';
+
 export default class Application {
   private expressApp: express.Application = express();
 
-  constructor(private port: number) {
-    this.initializeAppMiddlewares();
+  constructor(private port: number, private controllers: IController[]) {
     this.initializeDatabaseConnection();
+    this.initializeAppMiddlewares();
+    this.initializeControllers();
   }
 
   public startAppListening(): void {
@@ -32,5 +35,11 @@ export default class Application {
       .connect(DATABASE_URI as string, { dbName: DATABASE_NAME as string })
       .then((conn) => console.log(conn.connection.db.databaseName, 'DB'))
       .catch((error: any) => console.error(error.message));
+  }
+
+  private initializeControllers(): void {
+    this.controllers.forEach((controller) => {
+      this.expressApp.use('/api/v1', controller.router);
+    });
   }
 }
