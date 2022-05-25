@@ -6,7 +6,7 @@ import compression from 'compression';
 import mongoose from 'mongoose';
 
 import { IController } from './utils/interfaces';
-import ErrorHandlerMiddleware from './middlewares/ErrorHandlingMiddleware';
+import { ErrorHandlerMiddleware } from './middlewares';
 
 export default class Application {
   private expressApp: express.Application = express();
