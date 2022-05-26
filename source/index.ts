@@ -3,6 +3,9 @@ import 'dotenv/config';
 import Application from './App';
 import { IController } from './utils/interfaces';
 import { PostController } from './resources';
+import validateEnvVars from './utils/validateEnvVars';
+
+validateEnvVars();
 
 // controllers
 const postsController = new PostController();
