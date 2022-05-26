@@ -5,7 +5,7 @@ import { IController } from './utils/interfaces';
 import { PostController } from './resources';
 import validateEnvVars from './utils/validateEnvVars';
 
-// validateEnvVars();
+validateEnvVars(process.env);
 
 // controllers
 const postsController = new PostController();

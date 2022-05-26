@@ -1,8 +1,8 @@
-import envalid from 'envalid';
+import * as envalid from 'envalid';
 
-const validateEnvVars = () => {
-  envalid.cleanEnv(process.env, {
-    PORT: envalid.num({ default: 9000 }),
+const validateEnvVars = (environment: NodeJS.ProcessEnv) => {
+  envalid.cleanEnv(environment, {
+    PORT: envalid.num(),
     DATABASE_URI: envalid.str(),
     DATABASE_NAME: envalid.str(),
     JWT_SECRET: envalid.str()
