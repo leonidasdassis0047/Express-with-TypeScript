@@ -8,13 +8,12 @@ const ValidationMiddleware = (Schema: Joi.Schema): RequestHandler => {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const validationResults: Joi.ValidationResult =
-        await Schema.validateAsync(request.body, {
-          allowUnknown: true,
-          abortEarly: false
-        });
+      const validationResults = await Schema.validateAsync(request.body, {
+        allowUnknown: true,
+        abortEarly: true
+      });
 
-      request.body = validationResults?.value;
+      request.body = validationResults;
       next();
     } catch (error: any) {
       const validationErrors: string[] = [];

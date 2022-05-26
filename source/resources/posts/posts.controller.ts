@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import { ValidationMiddleware } from '../../middlewares';
 import AsyncHandler from '../../utils/AsyncHandler';
 import { Controller } from '../../utils/interfaces';
 import { IPost } from './posts.interface';
 import { PostService } from './posts.service';
+import { createPostValidator, updatePostValidator } from './posts.validation';
 
 export class PostController extends Controller {
   public path = '/posts';
@@ -19,11 +21,17 @@ export class PostController extends Controller {
 
     this.router
       .route(this.path)
-      .post(AsyncHandler(this.createNewPost.bind(this)));
+      .post([
+        ValidationMiddleware(createPostValidator),
+        AsyncHandler(this.createNewPost.bind(this))
+      ]);
 
     this.router
       .route(this.path + '/:post_id')
-      .patch(AsyncHandler(this.updatePost.bind(this)));
+      .patch(
+        ValidationMiddleware(updatePostValidator),
+        AsyncHandler(this.updatePost.bind(this))
+      );
 
     this.router
       .route(this.path + '/:post_id')
@@ -39,7 +47,7 @@ export class PostController extends Controller {
     next: NextFunction
   ): Promise<void> {
     const posts = await this.Service.fetchPosts();
-    response.send({ results: posts, count: posts.length });
+    response.send({ resultsCount: posts.length, results: posts });
   }
 
   /**
