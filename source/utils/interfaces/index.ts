@@ -3,5 +3,10 @@ import { Router } from 'express';
 export interface IController {
   path: string;
   router: Router;
-  initializeControllers: () => void;
+}
+
+export abstract class Controller {
+  abstract path: string;
+  abstract router: Router;
+  protected abstract initializeRoutes(): void;
 }
