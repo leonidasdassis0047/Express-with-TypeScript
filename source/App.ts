@@ -16,7 +16,7 @@ export default class Application {
     this.initializeAppMiddlewares();
     this.initializeControllers();
 
-    this.initializeErrorHandler(); // comes last
+    this.initializeErrorHandler(); // comes last in the middleware stack
   }
 
   public startAppListening(): void {
