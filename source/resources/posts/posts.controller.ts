@@ -3,10 +3,12 @@ import AsyncHandler from '../../utils/AsyncHandler';
 import { Controller } from '../../utils/interfaces';
 import { IPost } from './posts.interface';
 import { PostModel } from './posts.model';
+import { PostService } from './posts.service';
 
 export class PostController extends Controller {
   public path = '/posts';
   public router = Router();
+  private Service = new PostService();
 
   constructor() {
     super();
@@ -29,7 +31,7 @@ export class PostController extends Controller {
     next: NextFunction
   ): Promise<void> {
     const posts = await PostModel.find({});
-    response.send(posts);
+    response.send({ data: posts, count: posts.length });
   }
 
   /**
@@ -41,7 +43,7 @@ export class PostController extends Controller {
     next: NextFunction
   ): Promise<void> => {
     const post: IPost = request.body;
-    const createdPost = await PostModel.create(post);
+    const createdPost = await this.Service.createPost(post);
     response.send(createdPost);
   };
 }

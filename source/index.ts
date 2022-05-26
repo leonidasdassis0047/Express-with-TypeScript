@@ -2,8 +2,8 @@ import 'dotenv/config';
 
 import Application from './App';
 import { IController } from './utils/interfaces';
-import { PostController } from './resources';
 import validateEnvVars from './utils/validateEnvVars';
+import { PostController } from './resources';
 
 validateEnvVars(process.env);
 
