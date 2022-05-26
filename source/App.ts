@@ -15,7 +15,6 @@ export default class Application {
     this.initializeDatabaseConnection();
     this.initializeAppMiddlewares();
     this.initializeControllers();
-
     this.initializeErrorHandler(); // comes last in the middleware stack
   }
 
