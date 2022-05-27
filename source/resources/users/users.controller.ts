@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import AsyncHandler from '../../utils/AsyncHandler';
 import { Controller } from '../../utils/interfaces';
+import { IUser } from './users.interface';
 
 export class AuthController extends Controller {
   public path = '/auth';
@@ -27,7 +28,8 @@ export class AuthController extends Controller {
     response: Response,
     next: NextFunction
   ): Promise<void> => {
-    response.send('registration');
+    const registrationData: IUser = request.body;
+    response.send({ data: registrationData });
   };
 
   /**
